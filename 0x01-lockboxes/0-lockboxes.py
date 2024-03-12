@@ -3,6 +3,7 @@
 0-lockboxes.py
 """
 
+
 def canUnlockAll(boxes):
     """
     Determines if all the boxes can be opened.
