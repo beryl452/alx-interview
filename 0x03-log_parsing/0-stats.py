@@ -13,11 +13,10 @@ def extract_data(line):
     """
     try:
         data = line.split()
-        # print(f"...\n..{line}\n..{data}\n...")
-        status_code = data[-2]
-        file_size = data[-1]
+        status_code = int(data[-2])
+        file_size = int(data[-1])
         return (status_code, file_size)
-    except IndexError:
+    except (IndexError, ValueError):
         return (None, None)
 
 
