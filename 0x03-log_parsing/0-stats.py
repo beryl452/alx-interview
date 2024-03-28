@@ -17,8 +17,9 @@ def extract_data(line):
         status_code = data[-2]
         file_size = data[-1]
         return (status_code, file_size)
-    except:
+    except IndexError:
         return (None, None)
+
 
 def print_stats(total_file_size, status_code_size):
     """Prints the statistics.
@@ -29,6 +30,7 @@ def print_stats(total_file_size, status_code_size):
     print('File size: {}'.format(total_file_size))
     for status_code, size in sorted(status_code_size.items()):
         print('{}: {}'.format(status_code, size))
+
 
 def main():
     """Parses log lines from standard input.
@@ -51,6 +53,7 @@ def main():
                 print_stats(total_file_size, status_code_size)
     except (KeyboardInterrupt, EOFError):
         print_stats(total_file_size, status_code_size)
+
 
 if __name__ == '__main__':
     main()
