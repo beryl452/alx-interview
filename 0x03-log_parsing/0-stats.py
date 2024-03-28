@@ -27,9 +27,9 @@ def print_stats(total_file_size, status_code_size):
         total_file_size (int): The total file size.
         status_code_size (dict): The status code sizes.
     """
-    print('File size: {}'.format(total_file_size))
+    print('File size: {}'.format(total_file_size), flush=True)
     for status_code, size in sorted(status_code_size.items()):
-        print('{}: {}'.format(status_code, size))
+        print('{}: {}'.format(status_code, size), flush=True)
 
 
 def main():
