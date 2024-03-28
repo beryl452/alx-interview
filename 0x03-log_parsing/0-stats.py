@@ -3,7 +3,6 @@
 """
 import sys
 
-
 def extract_data(line):
     """Extracts the data from a log line.
     Args:
@@ -13,46 +12,46 @@ def extract_data(line):
     """
     try:
         data = line.split()
-        status_code = int(data[-2])
-        file_size = int(data[-1])
+        if len(data) < 9:
+            return (None, None)
+        status_code = data[7]
+        file_size = int(data[8])
         return (status_code, file_size)
     except (IndexError, ValueError):
         return (None, None)
 
-
-def print_stats(total_file_size, status_code_size):
+def print_stats(total_file_size, status_code_count):
     """Prints the statistics.
     Args:
         total_file_size (int): The total file size.
-        status_code_size (dict): The status code sizes.
+        status_code_count (dict): The status code counts.
     """
     print('File size: {}'.format(total_file_size), flush=True)
-    for status_code, size in sorted(status_code_size.items()):
-        print('{}: {}'.format(status_code, size), flush=True)
-
+    for status_code, count in sorted(status_code_count.items()):
+        print('{}: {}'.format(status_code, count), flush=True)
 
 def main():
     """Parses log lines from standard input.
     """
     line_number = 0
     total_file_size = 0
-    status_code_size = {}
+    status_code_count = {}
 
     try:
         while True:
             line = sys.stdin.readline()
             line_number += 1
             status_code, file_size = extract_data(line)
-            total_file_size += int(file_size)
-            if status_code in status_code_size:
-                status_code_size[status_code] += 1
-            else:
-                status_code_size[status_code] = 1
+            if status_code is not None:
+                total_file_size += file_size
+                if status_code in status_code_count:
+                    status_code_count[status_code] += 1
+                else:
+                    status_code_count[status_code] = 1
             if (line_number % 10 == 0):
-                print_stats(total_file_size, status_code_size)
+                print_stats(total_file_size, status_code_count)
     except (KeyboardInterrupt, EOFError):
-        print_stats(total_file_size, status_code_size)
-
+        print_stats(total_file_size, status_code_count)
 
 if __name__ == '__main__':
     main()
