@@ -15,7 +15,7 @@ def extract_data(line):
         if len(data) < 9:
             return (None, None)
         status_code = data[7]
-        file_size = int(data[8])
+        file_size = data[8]
         return (status_code, file_size)
     except (IndexError, ValueError):
         return (None, None)
@@ -42,7 +42,9 @@ def main():
             line = sys.stdin.readline()
             line_number += 1
             status_code, file_size = extract_data(line)
-            if status_code is not None:
+            if status_code.isdigit() and file_size.isdigit():
+                status_code = int(status_code)
+                file_size = int(file_size)
                 total_file_size += file_size
                 if status_code in status_code_count:
                     status_code_count[status_code] += 1
