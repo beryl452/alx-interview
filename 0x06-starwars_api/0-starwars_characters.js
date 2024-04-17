@@ -9,19 +9,19 @@ const options = {
   }
 };
 
-function callback(error, response, body) {
-  if (!error && response.statusCode == 200) {
+function callback (error, response, body) {
+  if (!error && response.statusCode === 200) {
     const charactersURL = JSON.parse(body).characters;
     const charactersName = charactersURL.map(
       url => new Promise((resolve, reject) => {
         request(url, (_err, _res, _body) => {
-	  if (_err) {
-	    reject(_err);
-	  }
-	  resolve(JSON.parse(_body).name);
-	});
+          if (_err) {
+            reject(_err);
+          }
+          resolve(JSON.parse(_body).name);
+        });
       }));
-	 
+
     Promise.all(charactersName)
       .then(names => console.log(names.join('\n')))
       .catch(err => console.log(err));
@@ -31,6 +31,6 @@ function callback(error, response, body) {
 }
 
 if (process.argv.length > 2) {
-  options['url']=`${API_URL}/films/${process.argv[2]}/`;
+  options.url = `${API_URL}/films/${process.argv[2]}/`;
   request.get(options, callback);
 }
