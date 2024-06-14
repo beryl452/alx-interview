@@ -5,7 +5,7 @@ Island Perimeter
 
 
 def island_perimeter(grid):
-    """Computes the perimeter of an island with no lakes.
+    """Calculate the perimeter of a single island in a grid
     """
     perimeter = 0
     if type(grid) is not list:
